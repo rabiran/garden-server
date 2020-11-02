@@ -1,14 +1,18 @@
 
+const axios = require('axios');
 
-const getImmigrants = (req, res) => {
+const getImmigrants = async (req, res) => {
+    // proxy axios
     res.send(200);
 }
 
-const addImmigrant = (req, res) => {
+const addImmigrant = async (req, res) => {
+    // proxy axios
     res.send(200);
 }
 
-const deleteImmigrant = (req, res) => {
+const deleteImmigrant = async (req, res) => {
+    // proxy axios
     res.send(200);
 }
 

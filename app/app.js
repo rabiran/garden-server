@@ -21,12 +21,12 @@ app.use(cookieParser());
 app.use('/api', indexRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use((err, req, res, next)=> {
+app.use((err, req, res, next) => {
   console.log('am i here');
   handleHttpError(err, res);
 });

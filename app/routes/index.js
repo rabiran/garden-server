@@ -6,14 +6,14 @@ const { getImmigrants, addImmigrant, deleteImmigrant } = require('../controllers
 const { getAllAllowed, getAllowed, addAllowed, updateAllowed, deleteAllowed } = require('../controllers/controller');
 
 router.get('/allowed', isAdmin, wa(getAllAllowed) );
-// router.get('/allowed/:id', isAdmin, wa(getAllowed) );
-// router.post('/allowed', isAdmin, wa(addAllowed) );
-// router.put('/allowed/:id', isAdmin, wa(updateAllowed) );
-// router.delete('/immigrant/:id', isAdmin, wa(deleteAllowed) );
+router.get('/allowed/:id', isAdmin, wa(getAllowed) );
+router.post('/allowed', isAdmin, wa(addAllowed) );
+router.put('/allowed/:id', isAdmin, wa(updateAllowed) );
+router.delete('/allowed/:id', isAdmin, wa(deleteAllowed) );
 
-// // proxy shit
-// router.get('/immigrant/gardener/:', isAuth, wa(getImmigrants) );
-// router.post('/immigrant', isAuth, wa(addImmigrant) );
-// router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
+// proxy shit
+router.get('/immigrant/gardener/:', isAuth, wa(getImmigrants) );
+router.post('/immigrant', isAuth, wa(addImmigrant) );
+router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
 
 module.exports = router;
