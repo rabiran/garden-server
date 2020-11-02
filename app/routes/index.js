@@ -12,7 +12,7 @@ router.put('/allowed/:id', isAdmin, wa(updateAllowed) );
 router.delete('/allowed/:id', isAdmin, wa(deleteAllowed) );
 
 // proxy shit
-router.get('/immigrant/gardener/:', isAuth, wa(getImmigrants) );
+router.get('/immigrant/gardener/', isAuth, wa(getImmigrants) );
 router.post('/immigrant', isAuth, wa(addImmigrant) );
 router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
 
