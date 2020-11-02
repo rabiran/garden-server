@@ -9,7 +9,8 @@ const schema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
-});
+    
+}, { versionKey: false});
 
 // makes the final object on view prettier with just id field and not _id.
 schema.set('toJSON', {
