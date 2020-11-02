@@ -8,7 +8,8 @@ const { dbGetAllowedById } = require('../repository');
 const averify = util.promisify(jwt.verify);
 
 const checkAuth = async (req, res) => {
-    const token = req.header('Authorization');
+    //const token = req.header('Authorization');
+    const token = req.cookies['MSGardenToken']
 
     const payload = await averify(token, config.jwtSecret).catch(() => {
         // throw new ServerError(401, 'fuck you');
@@ -30,7 +31,9 @@ const shragaCallback = async (req, res) => {
         isAdmin: allowedUser.isAdmin
     },config.jwtSecret, { expiresIn: "1h"});
 
+    res.cookie('MSGardenToken', token)
     res.send(token);
+    
 }
 
 module.exports = { checkAuth, shragaCallback }
