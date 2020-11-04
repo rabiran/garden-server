@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.766d07cf.chunk.css",
+    "main.js": "/static/js/main.ce2e5c86.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.60dc946e.js",
+    "static/js/2.91cef19d.chunk.js": "/static/js/2.91cef19d.chunk.js",
+    "static/js/3.8b220ae6.chunk.js": "/static/js/3.8b220ae6.chunk.js",
+    "static/js/4.b3ca86b9.chunk.js": "/static/js/4.b3ca86b9.chunk.js",
+    "static/js/5.0f68ccd7.chunk.js": "/static/js/5.0f68ccd7.chunk.js",
+    "index.html": "/index.html",
+    "precache-manifest.7ce6a4e8f0998792148270da971b97d6.js": "/precache-manifest.7ce6a4e8f0998792148270da971b97d6.js",
+    "service-worker.js": "/service-worker.js",
+    "static/js/2.91cef19d.chunk.js.LICENSE.txt": "/static/js/2.91cef19d.chunk.js.LICENSE.txt",
+    "static/js/3.8b220ae6.chunk.js.LICENSE.txt": "/static/js/3.8b220ae6.chunk.js.LICENSE.txt",
+    "static/js/4.b3ca86b9.chunk.js.LICENSE.txt": "/static/js/4.b3ca86b9.chunk.js.LICENSE.txt",
+    "static/js/5.0f68ccd7.chunk.js.LICENSE.txt": "/static/js/5.0f68ccd7.chunk.js.LICENSE.txt",
+    "static/media/migraine.svg": "/static/media/migraine.eb79fd19.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.60dc946e.js",
+    "static/js/2.91cef19d.chunk.js",
+    "static/css/main.766d07cf.chunk.css",
+    "static/js/main.ce2e5c86.chunk.js"
+  ]
+}
