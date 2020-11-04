@@ -1,13 +1,27 @@
 
 const { ServerError } = require('../helpers/errorHandler');
+const jwt = require('jsonwebtoken');
+const util = require('util');
+const averify = util.promisify(jwt.verify);
 
-const isAuth = (req, res, next) => {
-    // TO DO: verify token
+const isAuth = async (req, res, next) => {
+    const token = req.header('Authorization');
+
+    const payload = await averify(token, config.jwtSecret).catch(() => {
+        res.redirect('/shraga');
+    });
     next();
 }
 
-const isAdmin= (req, res, next) => {
-    // TO DO: verify token and that payload isAdmin
+const isAdmin = async (req, res, next) => {
+    const token = req.header('Authorization');
+
+    const payload = await averify(token, config.jwtSecret).catch(() => {
+        res.redirect('/shraga');
+    });
+
+    if(!payload.isAdmin) res.redirect('/shraga');
+
     next();
 }
 

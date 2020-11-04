@@ -23,7 +23,7 @@ const shragaCallback = async (req, res) => {
     const { id , displayName } = req.user;
     const allowedUser = await dbGetAllowedById(id);
     if(!allowedUser) {
-        return res.redirect('/fuckyou')
+        return res.redirect('/unauthorized')
     }
 
     const token = jwt.sign({
