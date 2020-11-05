@@ -27,4 +27,10 @@ const search = async (req, res) => {
     // if(config.isMock) { await wait(200); res.json({data: users}); }
 }
 
-module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search }
+const getDomains = async (req, res) => {
+    // proxy axios
+    // if(config.isMock) { await wait(200); res.json({data: users}); }
+    res.json(['ads', 'es', 'target']);
+}
+
+module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }

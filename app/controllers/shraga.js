@@ -40,7 +40,7 @@ const shragaCallback = async (req, res) => {
 const getAuth = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
     const payload = await averify(token, config.jwtSecret).catch(err => {
-        throw new ServerError(401, 'that shouldnt happen');
+        throw new ServerError(401, 'no');
     });
     res.json(payload);
 }
