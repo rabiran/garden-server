@@ -1,0 +1,36 @@
+version: "3"
+services:
+    garden-server:
+        image: node:latest
+        container_name: garden-srv
+        build: .
+        ports:
+            - "80:3000"
+            - "443:443"
+        depends_on:
+            - mongodb
+            - redis
+
+    mongo:
+        container_name: mongo
+        image: mongo
+        volumes:
+            - ./data:/data/db
+        ports:
+            - "27017:27017"
+        volumes:
+            - ./data:/data/db
+        environment:
+            - MONGODB_ROOT_PASSWORD: imaroot!
+            - MONGODB_USERNAME: admin
+            - MONGODB_PASSWORD: iamroot!
+            - MONGODB_DATABASE: gardendb
+    redis:
+        image: redis:alpine
+        container_name: redis
+        environment: 
+            - REDIS_PASSWORD: iamroot!
+        ports:
+            - "6379:6379"
+        volumes: 
+            - ./redis-data:/data/redis
