@@ -1,11 +1,20 @@
 
 const axios = require('axios');
+const https = require('https');
 const config = require('../config');
 const migrationsMock = require('../mocks/migrations');
 const users = require('../mocks/users');
 const domains = require('../mocks/domains');
 
 const wait = require('../helpers/utils/wait');
+const { getSpikeTokenG } = require('../helpers/spike');
+
+const request = axios.create({
+    httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+    }),
+    timeout: 5000
+});
 
 const getImmigrants = async (req, res) => {
     // proxy axios

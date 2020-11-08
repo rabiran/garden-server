@@ -8,13 +8,13 @@ var app = require('../app/app');
 // var debug = require('debug')('garden-server:server');
 var http = require('http');
 const startDb = require('../app/repository/start');
-
+const { configureSpikeRedisG } = require('../app/helpers/spike');
 
 let server;
 
 const init = async () => {
   try {
-    // TO DO:  start spikeGetToken service(redis)
+    configureSpikeRedisG();
     await startDb();
     const port = normalizePort(process.env.PORT || '3000');
     app.set('port', port);

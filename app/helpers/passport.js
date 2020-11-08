@@ -1,5 +1,6 @@
 const passport = require("passport");
 const { Strategy } = require("passport-shraga");
+const config = require('../config/shraga');
 
 // passport.serializeUser((user, cb) => {
 //     //serialize function
@@ -8,13 +9,6 @@ const { Strategy } = require("passport-shraga");
 // passport.deserializeUser((id, cb) => {
 //     ///deserialize function
 // });
-
-const config = {
-    callbackURL: "/auth/callback",
-    shragaURL: "http://localhost:3000",
-    useEnrichId: false,
-    transform: x => x
-};
 
 passport.use(new Strategy(config, (profile, done) => {
     console.log(profile);
