@@ -1,0 +1,1 @@
+module.exports = ['ads', 'es', 'target'];

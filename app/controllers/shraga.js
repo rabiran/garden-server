@@ -7,16 +7,17 @@ const { dbGetAllowedById } = require('../repository');
 
 const averify = util.promisify(jwt.verify);
 
-const checkAuth = async (req, res) => {
+const checkAuth = async (req, res, next) => {
     //const token = req.header('Authorization');
-    const token = req.cookies['MSGardenToken']
+    const token = req.cookies['MSGardenToken'];
 
-    const payload = await averify(token, config.jwtSecret).catch(() => {
-        // throw new ServerError(401, 'fuck you');
-        res.redirect('/shraga');
-    });
-
-    res.send(payload);
+    try {
+        await averify(token, config.jwtSecret);
+        return next();
+    }   
+    catch(err) {
+        return res.redirect('/shraga');
+    }
 }
 
 const shragaCallback = async (req, res) => {
@@ -29,11 +30,19 @@ const shragaCallback = async (req, res) => {
     const token = jwt.sign({
         fullName: displayName,
         isAdmin: allowedUser.isAdmin
-    },config.jwtSecret, { expiresIn: "1h"});
+    },config.jwtSecret, { expiresIn: config.tokenDuration});
 
-    res.cookie('MSGardenToken', token)
-    res.send(token);
-    
+    res.cookie('MSGardenToken', token);
+    res.redirect('/');
+    // res.send(token);
 }
 
-module.exports = { checkAuth, shragaCallback }
+const getAuth = async (req, res, next) => {
+    const token = req.cookies['MSGardenToken'];
+    const payload = await averify(token, config.jwtSecret).catch(err => {
+        throw new ServerError(401, 'no');
+    });
+    res.json(payload);
+}
+
+module.exports = { checkAuth, shragaCallback, getAuth }
