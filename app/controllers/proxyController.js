@@ -3,6 +3,7 @@ const axios = require('axios');
 const config = require('../config');
 const migrationsMock = require('../mocks/migrations');
 const users = require('../mocks/users');
+const domains = require('../mocks/domains');
 
 const wait = require('../helpers/utils/wait');
 
@@ -30,7 +31,8 @@ const search = async (req, res) => {
 const getDomains = async (req, res) => {
     // proxy axios
     // if(config.isMock) { await wait(200); res.json({data: users}); }
-    res.json(['ads', 'es', 'target']);
+    if(config.isMock)
+        res.json(domains);
 }
 
 module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }

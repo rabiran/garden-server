@@ -12,7 +12,7 @@ const checkAuth = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
 
     try {
-        const payload = await averify(token, config.jwtSecret);
+        await averify(token, config.jwtSecret);
         return next();
     }   
     catch(err) {
@@ -30,7 +30,7 @@ const shragaCallback = async (req, res) => {
     const token = jwt.sign({
         fullName: displayName,
         isAdmin: allowedUser.isAdmin
-    },config.jwtSecret, { expiresIn: "1h"});
+    },config.jwtSecret, { expiresIn: config.tokenDuration});
 
     res.cookie('MSGardenToken', token);
     res.redirect('/');

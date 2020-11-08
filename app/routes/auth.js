@@ -3,14 +3,15 @@ const { ServerError } = require('../helpers/errorHandler');
 const jwt = require('jsonwebtoken');
 const util = require('util');
 const config = require('../config');
+const { Server } = require('http');
 
 const averify = util.promisify(jwt.verify);
 
 const isAuth = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
 
-    const payload = await averify(token, config.jwtSecret).catch(() => {
-        res.redirect('/shraga');
+    await averify(token, config.jwtSecret).catch(() => {
+        res.redirect('/');
     });
     next();
 }
@@ -19,10 +20,10 @@ const isAdmin = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
 
     const payload = await averify(token, config.jwtSecret).catch(() => {
-        res.redirect('/shraga');
+        res.redirect('/');
     });
 
-    if(!payload.isAdmin) res.redirect('/shraga');
+    if(!payload.isAdmin) throw new Server(401, 'Lacking permissions');
 
     next();
 }

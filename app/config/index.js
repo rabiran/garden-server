@@ -11,4 +11,5 @@ module.exports = {
     auth: false,
     isMock: false,
     jwtCookieName: "MSGardenToken",
+    tokenDuration: "1h"
 }
