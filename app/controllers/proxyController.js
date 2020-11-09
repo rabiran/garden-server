@@ -3,11 +3,14 @@ const axios = require('axios');
 const https = require('https');
 const config = require('../config');
 const migrationsMock = require('../mocks/migrations');
+const migrationMock = require('../mocks/migration');
 const users = require('../mocks/users');
 const domains = require('../mocks/domains');
-
+const { ServerError } = require('../helpers/errorHandler');
 const wait = require('../helpers/utils/wait');
+const minify = require('../helpers/utils/migrationMinifiy');
 const { getSpikeTokenG } = require('../helpers/spike');
+const { getSpikeTokenKartoffel } = require('../helpers/spike');
 
 const request = axios.create({
     httpsAgent: new https.Agent({
@@ -17,31 +20,85 @@ const request = axios.create({
 });
 
 const getImmigrants = async (req, res) => {
-    // proxy axios
-    res.json(migrationsMock);
-    // if(config.isMock) { await wait(200); res.json({data: migrationsMock}); }
+    if(config.isMock)
+        return res.json(migrationsMock);
+    
+    const { payload } = res.locals;
+    const gardenerId = payload.id;
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/immigrant/${gardenerId}`;
+    const migrations = await request.get(url, headers).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    const minifiedMigrations = migrations.map(migration => minify(migration));
+    return res.send(minifiedMigrations);
 }
 
 const addImmigrant = async (req, res) => {
-    // proxy axios
-    res.send(200);
+    if(config.isMock)
+        return res.send(migrationMock);
+
+    const { id, primaryDomainUser } = req.body;
+    const { payload } = res.locals;
+    const gardenerId = payload.id;
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/immigrant`;
+    const migration = await axios.post(url, headers, {
+        gardenerId,
+        id,
+        primaryDomainUser
+    }).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    const minifiedMigration = minify(migration)
+    return res.send(minifiedMigration);
 }
 
 const deleteImmigrant = async (req, res) => {
-    // proxy axios
-    res.send(200);
+    if(config.isMock)
+        return res.send('ok');
+
+    const { id } = req.body;
+    const { payload } = res.locals;
+    const gardenerId = payload.id;
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/immigrant/${id}`;
+    await request.delete(url, headers).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    res.send('ok');
 }
 
 const search = async (req, res) => {
-    // proxy axios
-    // if(config.isMock) { await wait(200); res.json({data: users}); }
+    const { name } = req.body;
+    const token = await getSpikeTokenKartoffel();
+    const headers = { Authorization: token };
+    const url = `${config.kartoffelUrl}/api/persons/search?fullName=${name}`;
+    const searchResults = await request.get(url, headers).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    return res.send(searchResults);
 }
 
 const getDomains = async (req, res) => {
-    // proxy axios
-    // if(config.isMock) { await wait(200); res.json({data: users}); }
     if(config.isMock)
         res.json(domains);
+
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/domains`;
+    const domains = await request.get(url, headers).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    return res.send(domains);
 }
 
 module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }
