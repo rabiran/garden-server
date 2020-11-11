@@ -28,12 +28,12 @@ const getImmigrants = async (req, res) => {
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant/${gardenerId}`;
-    const migrations = await request.get(url, headers).catch(err => {
+    const migrations = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
-    const minifiedMigrations = migrations.map(migration => minify(migration));
-    return res.send(minifiedMigrations);
+    const minifiedMigrations = migrations.data.map(migration => minify(migration));
+    return res.json(minifiedMigrations);
 }
 
 const addImmigrant = async (req, res) => {
@@ -46,7 +46,7 @@ const addImmigrant = async (req, res) => {
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant`;
-    const migration = await axios.post(url, headers, {
+    const migration = await axios.post(url, { headers }, {
         gardenerId,
         id,
         primaryDomainUser
@@ -54,8 +54,8 @@ const addImmigrant = async (req, res) => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
-    const minifiedMigration = minify(migration)
-    return res.send(minifiedMigration);
+    const minifiedMigration = minify(migration.data)
+    return res.json(minifiedMigration);
 }
 
 const deleteImmigrant = async (req, res) => {
@@ -68,7 +68,7 @@ const deleteImmigrant = async (req, res) => {
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant/${id}`;
-    await request.delete(url, headers).catch(err => {
+    await request.delete(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
@@ -76,15 +76,15 @@ const deleteImmigrant = async (req, res) => {
 }
 
 const search = async (req, res) => {
-    const { name } = req.body;
+    const { name } = req.params;
     const token = await getSpikeTokenKartoffel();
     const headers = { Authorization: token };
     const url = `${config.kartoffelUrl}/api/persons/search?fullName=${name}`;
-    const searchResults = await request.get(url, headers).catch(err => {
+    const searchResults = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
-    return res.send(searchResults);
+    return res.json(searchResults.data);
 }
 
 const getDomains = async (req, res) => {
@@ -94,11 +94,11 @@ const getDomains = async (req, res) => {
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/domains`;
-    const domains = await request.get(url, headers).catch(err => {
+    const domains = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
-    return res.send(domains);
+    return res.send(domains.data);
 }
 
 module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }

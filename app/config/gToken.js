@@ -7,7 +7,7 @@ module.exports = {
     ClientSecret: process.env.SPIKE_CLIENT_SECRET_G,
     spikeURL: config.spikeUrl,
     tokenGrantType: 'client_credentials',
-    tokenAudience: 'kartoffel',
+    tokenAudience: process.env.AUDIENCE_G,
     tokenRedisKeyName: 'gtoken',
     spikePublicKeyFullPath: path.join(__dirname, './key.pem'),
     useRedis: true,

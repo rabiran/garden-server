@@ -10,7 +10,7 @@ module.exports = {
     kartoffelUrl: process.env.KARTOFFEL_URL,
     gUrl: process.env.G_URL,
     auth: false,
-    isMock: true,
+    isMock: false,
     jwtCookieName: "MSGardenToken",
     tokenDuration: "1h"
 }
