@@ -28,6 +28,7 @@ const shragaCallback = async (req, res) => {
     }
 
     const token = jwt.sign({
+        id,
         fullName: displayName,
         isAdmin: allowedUser.isAdmin
     },config.jwtSecret, { expiresIn: config.tokenDuration});

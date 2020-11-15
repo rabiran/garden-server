@@ -38,7 +38,8 @@ app.use('/api', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  // next(createError(404));
+  res.sendFile(path.join(__dirname, '../build/index.html'));
 });
 
 // error handler

@@ -18,7 +18,8 @@
     "mongoose": "^5.10.11",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
-    "passport-shraga": "^1.4.0"
+    "passport-shraga": "^1.4.0",
+    "spike-get-token": "^1.1.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.2"

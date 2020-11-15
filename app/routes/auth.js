@@ -10,9 +10,11 @@ const averify = util.promisify(jwt.verify);
 const isAuth = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
 
-    await averify(token, config.jwtSecret).catch(() => {
+    const payload = await averify(token, config.jwtSecret).catch(() => {
         res.redirect('/');
     });
+
+    res.locals.payload = payload;
     next();
 }
 
@@ -25,6 +27,7 @@ const isAdmin = async (req, res, next) => {
 
     if(!payload.isAdmin) throw new Server(401, 'Lacking permissions');
 
+    res.locals.payload = payload;
     next();
 }
 

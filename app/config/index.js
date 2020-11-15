@@ -8,6 +8,7 @@ module.exports = {
     redisUrl: process.env.REDIS_URL,
     spikeUrl: process.env.SPIKE_URL,
     kartoffelUrl: process.env.KARTOFFEL_URL,
+    gUrl: process.env.G_URL,
     auth: false,
     isMock: false,
     jwtCookieName: "MSGardenToken",
