@@ -89,16 +89,16 @@ const search = async (req, res) => {
 
 const getDomains = async (req, res) => {
     if(config.isMock)
-        res.json(domains);
+        return res.send(domains);
 
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/domains`;
-    const domains = await request.get(url, { headers }).catch(err => {
+    const response = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
-    return res.send(domains.data);
+    return res.send(response.data);
 }
 
 module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }

@@ -10,6 +10,7 @@ const app = express();
 const passport = require("passport");
 const shraga = require('./helpers/passport');
 const { checkAuth, shragaCallback, getAuth } = require('./controllers/shraga');
+const config = require('./config');
 
 app.use(passport.initialize());
 app.use(cors());
@@ -17,7 +18,8 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-
+app.set('views', path.join(__dirname, '../unauthPage'));
+app.set('view engine', 'ejs'); 
 
 app.get('/', checkAuth);
 app.use(express.static(path.join(__dirname, '../build')));
@@ -32,13 +34,18 @@ app.post('/auth/callback/',  passport.authenticate("shraga", { session: false })
 app.use('/api', indexRouter);
 
 // app.use('/unauthorized', (req, res) => {
-  //   res.sendFile(path.join(__dirname, '../views/unauthorized.html'));
-  // });
+//     res.sendFile(path.join(__dirname, '../views/unauthorized.html'));
+// });
   
 app.use('/unauthorized', express.static(path.join(__dirname, '../unauthPage')));
 
+app.use('/unauthorized', (req,res) => {
+  res.render('index', {shahar: config.shaharContact, chen: config.chenContact});
+});
+
+
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use('*', checkAuth, (req, res) => {
   // next(createError(404));
   res.sendFile(path.join(__dirname, '../build/index.html'));
 });
