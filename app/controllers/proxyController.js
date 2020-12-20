@@ -11,6 +11,10 @@ const wait = require('../helpers/utils/wait');
 const minify = require('../helpers/utils/migrationMinifiy');
 const { getSpikeTokenG } = require('../helpers/spike');
 const { getSpikeTokenKartoffel } = require('../helpers/spike');
+const gardeners = require('../mocks/statsMocks/gardeners');
+const migratedMock = require('../mocks/statsMocks/migratedMock');
+const statsMock = require('../mocks/statsMocks/statsMock');
+const totalMigratedMock = require('../mocks/statsMocks/totalMigratedMock');
 
 const request = axios.create({
     httpsAgent: new https.Agent({
@@ -101,4 +105,25 @@ const getDomains = async (req, res) => {
     return res.send(response.data);
 }
 
-module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }
+const getGardenersStats = async(req, res) => {
+    if(config.isMock)
+        return res.send(gardeners);
+}
+
+const getMigratedStats = async(req, res) => {
+    if(config.isMock)
+        return res.send(migrationsMock);
+}
+
+const getStatusesStats = async(req, res) => {
+    if(config.isMock)
+        return res.send(statsMock);
+}
+
+const getTotalMigratedStats = async(req, res) => {
+    if(config.isMock)
+        return res.send(totalMigratedMock);
+}
+
+module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,
+getGardenersStats, getMigratedStats, getStatusesStats, getTotalMigratedStats }
