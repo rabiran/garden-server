@@ -87,6 +87,17 @@ const search = async (req, res) => {
     return res.json(searchResults.data);
 }
 
+const getExcel = async (req,res) =>{
+    const token = await getSpikeTokenG();
+    const headers = {Authorization: token};
+    const url = `${config.gUrl}/api/excel`;
+    const excelData = await request.get(url, {headers}).catch(err => {
+        const err = err.response;
+        throw new ServerError(error.status,error.data);
+    });
+    return res.json(excelData.data);
+}
+
 const getDomains = async (req, res) => {
     if(config.isMock)
         res.json(domains);
@@ -101,4 +112,4 @@ const getDomains = async (req, res) => {
     return res.send(domains.data);
 }
 
-module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains }
+module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,getExcel }
