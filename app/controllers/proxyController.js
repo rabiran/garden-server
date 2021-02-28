@@ -40,7 +40,7 @@ const addImmigrant = async (req, res) => {
     if(config.isMock)
         return res.send(migrationMock);
 
-    const { id, primaryDomainUser } = req.body;
+    const { id, primaryDomainUser, newUser , startDate} = req.body;
     const { payload } = res.locals;
     const gardenerId = payload.id;
     const token = await getSpikeTokenG();
@@ -49,7 +49,9 @@ const addImmigrant = async (req, res) => {
     const migration = await axios.post(url, { headers }, {
         gardenerId,
         id,
-        primaryDomainUser
+        primaryDomainUser,
+        newUser,
+        startDate,
     }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);

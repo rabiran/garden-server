@@ -15,7 +15,7 @@ router.delete('/allowed/:id', isAdmin, wa(deleteAllowed) );
 router.get('/immigrant/', isAuth, wa(getImmigrants) );
 router.get('/search/:name', isAuth, wa(search));
 router.get('/domains', isAuth, wa(getDomains));
-router.get('excel', isAuth, wa(getExcel))
+router.get('/excel', isAuth, wa(getExcel));
 router.post('/immigrant', isAuth, wa(addImmigrant) );
 router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
 
