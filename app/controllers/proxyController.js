@@ -27,7 +27,7 @@ const getImmigrants = async (req, res) => {
     const gardenerId = payload.id;
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
-    const url = `${config.gUrl}/api/immigrant/${gardenerId}`;
+    const url = `${config.gUrl}/api/immigrant`;
     const migrations = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
