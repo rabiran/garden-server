@@ -37,11 +37,11 @@ app.use('/api', indexRouter);
   
 app.use('/unauthorized', express.static(path.join(__dirname, '../unauthPage')));
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  // next(createError(404));
-  res.sendFile(path.join(__dirname, '../build/index.html'));
-});
+// // catch 404 and forward to error handler
+// app.use(function (req, res, next) {
+//   // next(createError(404));
+//   res.sendFile(path.join(__dirname, '../build/index.html'));
+// });
 
 // error handler
 app.use((err, req, res, next) => {

@@ -78,10 +78,10 @@ const deleteImmigrant = async (req, res) => {
 }
 
 const search = async (req, res) => {
-    const { name } = req.params;
+    const { username } = req.params;
     const token = await getSpikeTokenKartoffel();
     const headers = { Authorization: token };
-    const url = `${config.kartoffelUrl}/api/persons/search?fullName=${name}`;
+    const url = `${config.kartoffelUrl}/api/persons/search?fullName=${username}`;
     const searchResults = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
@@ -94,7 +94,7 @@ const getExcel = async (req,res) =>{
     const headers = {Authorization: token};
     const url = `${config.gUrl}/api/excel`;
     const excelData = await request.get(url, {headers}).catch(err => {
-        const err = err.response;
+        const error = err.response;
         throw new ServerError(error.status,error.data);
     });
     return res.json(excelData.data);
