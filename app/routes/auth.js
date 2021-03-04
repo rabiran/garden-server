@@ -8,26 +8,26 @@ const { Server } = require('http');
 const averify = util.promisify(jwt.verify);
 
 const isAuth = async (req, res, next) => {
-    const token = req.cookies['MSGardenToken'];
+    //const token = req.cookies['MSGardenToken'];
 
-    const payload = await averify(token, config.jwtSecret).catch(() => {
-        res.redirect('/');
-    });
+    // const payload = await averify(token, config.jwtSecret).catch(() => {
+    //     res.redirect('/');
+    // });
 
-    res.locals.payload = payload;
+    //res.locals.payload = payload;
     next();
 }
 
 const isAdmin = async (req, res, next) => {
-    const token = req.cookies['MSGardenToken'];
+    // const token = req.cookies['MSGardenToken'];
 
-    const payload = await averify(token, config.jwtSecret).catch(() => {
-        res.redirect('/');
-    });
+    // const payload = await averify(token, config.jwtSecret).catch(() => {
+    //     res.redirect('/');
+    // });
 
-    if(!payload.isAdmin) throw new Server(401, 'Lacking permissions');
+    // if(!payload.isAdmin) throw new Server(401, 'Lacking permissions');
 
-    res.locals.payload = payload;
+    // res.locals.payload = payload;
     next();
 }
 
