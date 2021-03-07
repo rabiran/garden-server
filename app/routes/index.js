@@ -13,7 +13,7 @@ router.delete('/allowed/:id', isAdmin, wa(deleteAllowed) );
 
 // proxy shit
 router.get('/immigrant/', isAuth, wa(getImmigrants) );
-router.get('/search/:username', isAuth, wa(search));
+router.get('/search/:username', wa(search));
 router.get('/searchOG/:groupname', isAuth, wa(searchOG));
 router.get('/getMembers/:groupid', isAuth, wa(getMembers));
 router.get('/domains', isAuth, wa(getDomains));

@@ -42,19 +42,18 @@ const addImmigrant = async (req, res) => {
     if(config.isMock)
         return res.send(migrationMock);
 
-    const { id, primaryDomainUser, newUser , startDate} = req.body;
+    const { id, primaryUniqueId, isNewUser , startDate} = req.body;
     const { payload } = res.locals;
     const gardenerId = payload.id;
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant`;
-    const migration = await axios.post(url, { headers }, {
-        gardenerId,
+    const migration = await axios.post(url,  {
         id,
-        primaryDomainUser,
-        newUser,
+        primaryUniqueId,
+        isNewUser,
         startDate,
-    }).catch(err => {
+    }, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
     });
@@ -83,7 +82,7 @@ const search = async (req, res) => {
     const { username } = req.params;
     const token = await getSpikeTokenKartoffel();
     const headers = { Authorization: token };
-    const url = `${config.kartoffelUrl}/api/persons/search?fullName=${username}`;
+    const url = `${config.kartoffelUrl}/api/persons/search?fullName=${encodeURI(username)}`;
     const searchResults = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
@@ -94,7 +93,7 @@ const searchOG = async (req, res) => {
     const { groupname } = req.params;
     const token = await getSpikeTokenKartoffel();
     const headers = { Authorization: token };
-    const url = `${config.kartoffelUrl}/api/organizationGroups/search?name=${groupname}`;
+    const url = `${config.kartoffelUrl}/api/organizationGroups/search?name=${encodeURI(groupname)}`;
     const searchResults = await request.get(url, { headers }).catch(err => {
         const error = err.response;
         throw new ServerError(error.status, error.data);
