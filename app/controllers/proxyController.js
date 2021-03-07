@@ -19,6 +19,8 @@ const request = axios.create({
     timeout: 5000
 });
 
+
+
 const getImmigrants = async (req, res) => {
     if(config.isMock)
         return res.json(migrationsMock);
@@ -88,6 +90,28 @@ const search = async (req, res) => {
     });
     return res.json(searchResults.data);
 }
+const searchOG = async (req, res) => {
+    const { groupname } = req.params;
+    const token = await getSpikeTokenKartoffel();
+    const headers = { Authorization: token };
+    const url = `${config.kartoffelUrl}/api/organizationGroups/search?name=${groupname}`;
+    const searchResults = await request.get(url, { headers }).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    return res.json(searchResults.data);
+}
+const getMembers = async (req, res) => {
+    const { groupid } = req.params;
+    const token = await getSpikeTokenKartoffel();
+    const headers = { Authorization: token };
+    const url = `${config.kartoffelUrl}/api/organizationGroups/${groupid}/members`;
+    const searchResults = await request.get(url, { headers }).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status, error.data);
+    });
+    return res.json(searchResults.data);
+}
 
 const getExcel = async (req,res) =>{
     const token = await getSpikeTokenG();
@@ -98,6 +122,27 @@ const getExcel = async (req,res) =>{
         throw new ServerError(error.status,error.data);
     });
     return res.json(excelData.data);
+}
+
+const getEntityType = async (req,res) =>{
+    const token = await getSpikeTokenG();
+    const headers = {Authorization: token};
+    const url = `${config.gUrl}/api/entityType`;
+    const entityType = await request.get(url, {headers}).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status,error.data);
+    });
+    return res.json(entityType.data);
+}
+const getDomainsMap = async (req,res) =>{
+    const token = await getSpikeTokenG();
+    const headers = {Authorization: token};
+    const url = `${config.gUrl}/api/domainsMap`;
+    const domainsMap = await request.get(url, {headers}).catch(err => {
+        const error = err.response;
+        throw new ServerError(error.status,error.data);
+    });
+    return res.json(domainsMap.data);
 }
 
 const getDomains = async (req, res) => {
@@ -114,4 +159,4 @@ const getDomains = async (req, res) => {
     return res.send(domains.data);
 }
 
-module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,getExcel }
+module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,getExcel,searchOG , getMembers ,getEntityType, getDomainsMap}
