@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { isAuth, isAdmin } = require('./auth');
 const wa = require('../helpers/utils/wrapAsync');
-const { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains, getExcel , searchOG , getMembers, getEntityType, getDomainsMap} = require('../controllers/proxyController');
+const { getImmigrants, addImmigrant, updateImmigrant, deleteImmigrant, search, getDomains, getExcel , searchOG , getMembers, getEntityType, getDomainsMap} = require('../controllers/proxyController');
 const { getAllAllowed, getAllowed, addAllowed, updateAllowed, deleteAllowed } = require('../controllers/controller');
 
 router.get('/allowed', isAdmin, wa(getAllAllowed) );
@@ -21,6 +21,7 @@ router.get('/excel', isAuth, wa(getExcel));
 router.get('/entityType', isAuth, wa(getEntityType));
 router.get('/domainsMap', isAuth, wa(getDomainsMap));
 router.post('/immigrant', isAuth, wa(addImmigrant) );
+router.put('/immigrant/:id', isAuth, wa(updateImmigrant) );
 router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
 
 module.exports = router;
