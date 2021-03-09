@@ -43,7 +43,7 @@ const addImmigrant = async (req, res) => {
     if(config.isMock)
         return res.send(migrationMock);
 
-    const { id, primaryUniqueId, isNewUser , startDate} = req.body;
+    const { id, primaryUniqueId, isNewUser , startDate, isUrgent} = req.body;
     const { payload } = res.locals;
     const gardenerId = payload.id;
     const token = await getSpikeTokenG();
@@ -54,6 +54,7 @@ const addImmigrant = async (req, res) => {
         primaryUniqueId,
         isNewUser,
         startDate,
+        isUrgent
     }, { headers }).catch(err => {
         // const error = err.response;
         // throw new ServerError(error.status, error.data);
