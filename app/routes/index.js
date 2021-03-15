@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const { isAuth, isAdmin } = require('./auth');
 const wa = require('../helpers/utils/wrapAsync');
-const { getImmigrants, addImmigrant, updateImmigrant, deleteImmigrant, search, getDomains, getExcel , searchOG , getMembers, getEntityType, getDomainsMap} = require('../controllers/proxyController');
+const { getImmigrants, addImmigrant, updateImmigrant, deleteImmigrant, search, getDomains,
+    getExcel , searchOG , getMembers, getEntityType, getDomainsMap,
+    getCompletedStats, getGardenerStats, getTotalStats, getProgressStats
+} = require('../controllers/proxyController');
 const { getAllAllowed, getAllowed, addAllowed, updateAllowed, deleteAllowed } = require('../controllers/controller');
 
 router.get('/allowed', isAdmin, wa(getAllAllowed) );
@@ -23,5 +26,10 @@ router.get('/domainsMap', isAuth, wa(getDomainsMap));
 router.post('/immigrant', isAuth, wa(addImmigrant) );
 router.put('/immigrant/:id', isAuth, wa(updateImmigrant) );
 router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
+
+router.get('/stats/gardeners', isAuth, wa(getCompletedStats));
+router.get('/stats/statuses', isAuth, wa(getGardenerStats));
+router.get('/stats/completed', isAuth, wa(getTotalStats));
+router.get('/stats/total', isAuth, wa(getProgressStats));
 
 module.exports = router;

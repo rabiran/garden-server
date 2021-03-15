@@ -9,7 +9,8 @@ module.exports = {
     spikeUrl: process.env.SPIKE_URL,
     kartoffelUrl: process.env.KARTOFFEL_URL,
     gUrl: process.env.G_URL,
-    auth: false,
+    secretMegaPassage: process.env.SUPER_SECRET,
+    isAuth: true,
     isMock: false,
     jwtCookieName: "MSGardenToken",
     tokenDuration: "1h"

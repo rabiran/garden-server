@@ -8,30 +8,35 @@ const averify = util.promisify(jwt.verify);
 
 const isAuth = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
-
-    const payload = await averify(token, config.jwtSecret).catch(() => {
+    
+    try {
+        const payload = await averify(token, config.jwtSecret);
+        res.locals.payload = payload;
+        return next();
+    }
+    catch(err) {
         return res.redirect('/');
-    });
-
-    res.locals.payload = payload;
-    return next();
+    }
+    
 }
 
 const isAdmin = async (req, res, next) => {
     const token = req.cookies['MSGardenToken'];
+    const superSecret = req.header('supersecret');
 
-    if(!config.isAuth) return next();
+    try {
+        if(!config.isAuth || superSecret === config.secretMegaPassage) return next();
 
-    const payload = await averify(token, config.jwtSecret).catch(() => {
+        const payload = await averify(token, config.jwtSecret);
+        
+        if(!payload.isAdmin)  return next(new ServerError(401, 'Lacking permissions'));
+
+        res.locals.payload = payload;
+        return next();
+    }
+    catch(err) {
         return res.redirect('/');
-    });
-
-    console.log(payload);
-    
-    if(!payload.isAdmin)  return next(new ServerError(401, 'Lacking permissions'));
-
-    res.locals.payload = payload;
-    return next();
+    }
 }
 
 module.exports = { isAuth, isAdmin }

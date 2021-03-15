@@ -189,4 +189,47 @@ const getDomains = async (req, res) => {
     return res.send(domains.data);
 }
 
-module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,getExcel,searchOG , getMembers ,getEntityType, getDomainsMap, updateImmigrant}
+const getCompletedStats = async (req, res) => {
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/stats/completed`;
+    const stats = await request.get(url, { headers }).catch(err => {
+        throw new ServerError(500, 'failed contacting g');
+    });
+    return res.send(stats.data);
+}
+
+const getGardenerStats = async (req, res) => {
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/stats/gardeners`;
+    const stats = await request.get(url, { headers }).catch(err => {
+        throw new ServerError(500, 'failed contacting g');
+    });
+    return res.send(stats.data);
+}
+
+const getTotalStats = async (req, res) => {
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/stats/total`;
+    const stats = await request.get(url, { headers }).catch(err => {
+        throw new ServerError(500, 'failed contacting g');
+    });
+    return res.send(stats.data);
+}
+
+const getProgressStats = async (req, res) => {
+    const token = await getSpikeTokenG();
+    const headers = { Authorization: token };
+    const url = `${config.gUrl}/api/stats/statuses`;
+    const stats = await request.get(url, { headers }).catch(err => {
+        throw new ServerError(500, 'failed contacting g');
+    });
+    return res.send(stats.data);
+}
+
+module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,getExcel,searchOG ,
+     getMembers ,getEntityType, getDomainsMap, updateImmigrant,
+     getCompletedStats, getGardenerStats, getTotalStats, getProgressStats
+    }

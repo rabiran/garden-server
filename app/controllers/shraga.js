@@ -21,15 +21,17 @@ const checkAuth = async (req, res, next) => {
 }
 
 const shragaCallback = async (req, res) => {
-    const { id , displayName } = req.user;
-    const allowedUser = await dbGetAllowedById(id);
+    const { id , displayName, genesisId, name } = req.user;
+
+    const actualId = genesisId || id;
+    const allowedUser = await dbGetAllowedById(actualId);
     if(!allowedUser) {
         return res.redirect('/unauthorized')
     }
 
     const token = jwt.sign({
-        id,
-        fullName: displayName,
+        id: actualId,
+        fullName: name.firstName + name.lastName,
         isAdmin: allowedUser.isAdmin
     },config.jwtSecret, { expiresIn: config.tokenDuration});
 
