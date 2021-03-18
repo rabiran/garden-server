@@ -27,9 +27,9 @@ router.post('/immigrant', isAuth, wa(addImmigrant) );
 router.put('/immigrant/:id', isAuth, wa(updateImmigrant) );
 router.delete('/immigrant', isAuth, wa(deleteImmigrant) );
 
-router.get('/stats/gardeners', isAuth, wa(getCompletedStats));
-router.get('/stats/statuses', isAuth, wa(getGardenerStats));
-router.get('/stats/completed', isAuth, wa(getTotalStats));
-router.get('/stats/total', isAuth, wa(getProgressStats));
+router.get('/stats/gardeners', isAuth, wa(getGardenerStats));
+router.get('/stats/statuses', isAuth, wa(getProgressStats));
+router.get('/stats/completed', isAuth, wa(getCompletedStats));
+router.get('/stats/total', isAuth, wa(getTotalStats));
 
 module.exports = router;

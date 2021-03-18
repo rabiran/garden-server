@@ -35,8 +35,8 @@ const getImmigrants = async (req, res) => {
         // throw new ServerError(error.status, error.data);
         throw new ServerError(500, 'failed contacting g');
     });
-    const minifiedMigrations = migrations.data.map(migration => minify(migration));
-    return res.json(minifiedMigrations);
+    // const minifiedMigrations = migrations.data.map(migration => minify(migration));
+    return res.json(migrations.data);
 }
 
 const addImmigrant = async (req, res) => {
@@ -54,14 +54,15 @@ const addImmigrant = async (req, res) => {
         primaryUniqueId,
         isNewUser,
         startDate,
+        gardenerId,
         isUrgent
     }, { headers }).catch(err => {
         // const error = err.response;
         // throw new ServerError(error.status, error.data);
         throw new ServerError(500, 'failed contacting g');
     });
-    const minifiedMigration = minify(migration.data)
-    return res.json(minifiedMigration);
+    // const minifiedMigration = minify(migration.data)
+    return res.json(migration.data);
 }
 
 const deleteImmigrant = async (req, res) => {
@@ -86,16 +87,16 @@ const updateImmigrant = async(req, res) => {
     if(config.isMock)
         return res.send('ok');
 
-    const { viewed } = req.body;
+    // const { viewed } = req.body;
     const { id } = req.params;
     const { payload } = res.locals;
     const gardenerId = payload.id;
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant/${id}`;
-    const migration = await axios.put(url,  {
-        viewed
-    }, { headers }).catch(err => {
+    const migration = await axios.put(url,  
+        req.body
+    , { headers }).catch(err => {
         // const error = err.response;
         // throw new ServerError(error.status, error.data);
         throw new ServerError(500, 'failed contacting g');
