@@ -11,6 +11,7 @@ const wait = require('../helpers/utils/wait');
 const minify = require('../helpers/utils/migrationMinifiy');
 const { getSpikeTokenG } = require('../helpers/spike');
 const { getSpikeTokenKartoffel } = require('../helpers/spike');
+const { id } = require('../mocks/migration');
 
 const request = axios.create({
     httpsAgent: new https.Agent({
@@ -26,7 +27,7 @@ const getImmigrants = async (req, res) => {
         return res.json(migrationsMock);
     
     const { payload } = res.locals;
-    const gardenerId = payload.id;
+    //const gardenerId = payload.id;
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant`;
@@ -114,6 +115,18 @@ const search = async (req, res) => {
         throw new ServerError(500, 'failed contacting kartoffel');
     });
     return res.json(searchResults.data);
+}
+
+const getPersonById = async (id) => {
+    const token = await getSpikeTokenKartoffel();
+    const headers = { Authorization: token };
+    const url = `${config.kartoffelUrl}/api/persons/${encodeURI(id)}`;
+    const searchResults = await request.get(url, { headers }).catch(err => {
+        // const error = err.response;
+        // throw new ServerError(error.status, error.data);
+        throw new ServerError(500, 'failed contacting kartoffel');
+    });
+    return searchResults.data;
 }
 const searchOG = async (req, res) => {
     const { groupname } = req.params;
@@ -231,6 +244,6 @@ const getProgressStats = async (req, res) => {
 }
 
 module.exports = { getImmigrants, addImmigrant, deleteImmigrant, search, getDomains,getExcel,searchOG ,
-     getMembers ,getEntityType, getDomainsMap, updateImmigrant,
+     getMembers ,getEntityType, getDomainsMap, updateImmigrant,getPersonById,
      getCompletedStats, getGardenerStats, getTotalStats, getProgressStats
     }
