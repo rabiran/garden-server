@@ -11,6 +11,8 @@ const passport = require("passport");
 const shraga = require('./helpers/passport');
 const { checkAuth, shragaCallback, getAuth } = require('./controllers/shraga');
 
+const expressStaticGzip = require("express-static-gzip");
+
 app.use(passport.initialize());
 app.use(cors());
 app.use(logger('dev'));
@@ -20,31 +22,32 @@ app.use(cookieParser());
 
 
 
-app.get('/', checkAuth);
+// app.get('/', checkAuth);
 
 
-
-
-
-
-app.get('/auth', getAuth);
-app.get('/shraga', passport.authenticate("shraga", { session: false }), (req, res, next) => {
-  // user will not get here and will be redirected to shraga instance configured.
-});
-
-
-app.post('/auth/callback/', passport.authenticate("shraga", { session: false }), shragaCallback);
-
-app.use('/api', indexRouter);
-// error handler
-
-// app.use('/unauthorized', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../views/unauthorized.html'));
+// app.get('/auth', getAuth);
+// app.get('/shraga', passport.authenticate("shraga", { session: false }), (req, res, next) => {
+//   // user will not get here and will be redirected to shraga instance configured.
 // });
 
-app.use('/unauthorized', express.static(path.join(__dirname, '../unauthPage')));
 
-// // catch 404 and forward to error handler
+// app.post('/auth/callback/', passport.authenticate("shraga", { session: false }), shragaCallback);
+
+// app.use('/api', indexRouter);
+// // error handler
+
+// // app.use('/unauthorized', (req, res) => {
+// //   res.sendFile(path.join(__dirname, '../views/unauthorized.html'));
+// // });
+
+// app.use('/unauthorized', express.static(path.join(__dirname, '../unauthPage')));
+
+app.use(
+  expressStaticGzip(path.join(__dirname, '../build'), {
+  enableBrotli: true,
+  }),
+);
+
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.use(function (req, res, next) {
