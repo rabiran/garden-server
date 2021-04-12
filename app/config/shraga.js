@@ -1,6 +1,6 @@
 module.exports = {
     callbackURL: "/auth/callback",
-    shragaURL: "http://localhost:3000",
+    shragaURL: process.env.SHRAGA_URL,
     useEnrichId: false,
     transform: x => x
 };

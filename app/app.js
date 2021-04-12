@@ -11,6 +11,8 @@ const passport = require("passport");
 const shraga = require('./helpers/passport');
 const { checkAuth, shragaCallback, getAuth } = require('./controllers/shraga');
 
+const expressStaticGzip = require("express-static-gzip");
+
 app.use(passport.initialize());
 app.use(cors());
 app.use(logger('dev'));
@@ -21,10 +23,6 @@ app.use(cookieParser());
 
 
 app.get('/', checkAuth);
-
-
-
-
 
 
 app.get('/auth', getAuth);
@@ -44,7 +42,12 @@ app.use('/api', indexRouter);
 
 app.use('/unauthorized', express.static(path.join(__dirname, '../unauthPage')));
 
-// // catch 404 and forward to error handler
+app.use(
+  expressStaticGzip(path.join(__dirname, '../build'), {
+  enableBrotli: true,
+  }),
+);
+
 app.use(express.static(path.join(__dirname, '../build')));
 
 app.use(function (req, res, next) {

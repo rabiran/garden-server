@@ -1,4 +1,5 @@
- 
+const booleanEnvParser = require('../helpers/utils/booleanEnvParser');
+
 module.exports = {
     env: process.env.NODE_ENV,
     jwtSecret: process.env.JWT_SECRET,
@@ -10,8 +11,8 @@ module.exports = {
     kartoffelUrl: process.env.KARTOFFEL_URL,
     gUrl: process.env.G_URL,
     secretMegaPassage: process.env.SUPER_SECRET,
-    isAuth: false,
-    isMock: false,
+    isAuth: booleanEnvParser(process.env.IS_AUTH),
+    isMock: booleanEnvParser(process.env.IS_MOCK),
     jwtCookieName: "MSGardenToken",
     tokenDuration: "1h"
 }
