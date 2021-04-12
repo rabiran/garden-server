@@ -1,7 +1,7 @@
 
 const { ServerError } = require('../helpers/errorHandler');
 const { dbGetAllowed, dbGetAllowedById, dbAddAllowed, dbUpdateAllowed, dbDeleteAllowed } = require('../repository');
-const {getPersonById} = require('./proxyController')
+const {getPersonById} = require('../helpers/apiUtils/index')
 
 const getAllAllowed = async (req, res) => {
 
@@ -34,7 +34,7 @@ const addAllowed = async (req, res) => {
     const data = req.body;   
     const foundDuplicate = await dbGetAllowedById(data.id);
     if(foundDuplicate !== null){
-        throw new Error('found duplicate in db!')
+        throw new ServerError(400,'found duplicate in db!')
     }
     const response = await dbAddAllowed(data).catch(error => {
         throw new ServerError(500, 'failed contacting garden db');

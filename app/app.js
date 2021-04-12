@@ -24,7 +24,7 @@ app.use(cookieParser());
 
 
 
-app.get('/');//checkAuth
+app.get('/',checkAuth);
 
 
 app.get('/auth', getAuth);
@@ -34,7 +34,7 @@ app.get('/shraga', passport.authenticate("shraga", { session: false }), (req, re
 
 
 
-//app.post('/auth/callback/', passport.authenticate("shraga", { session: false }), shragaCallback);
+app.post('/auth/callback/', passport.authenticate("shraga", { session: false }), shragaCallback);
 
 app.use('/api', indexRouter);
 // error handler
