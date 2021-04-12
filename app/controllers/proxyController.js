@@ -46,7 +46,7 @@ const addImmigrant = async (req, res) => {
 
     const { id, primaryUniqueId, isNewUser , startDate, isUrgent} = req.body;
     const { payload } = res.locals;
-    const gardenerId = payload.id;
+    const gardenerId = payload ? payload.id : '1';
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant`;
@@ -90,8 +90,8 @@ const updateImmigrant = async(req, res) => {
 
     // const { viewed } = req.body;
     const { id } = req.params;
-    const { payload } = res.locals;
-    const gardenerId = payload.id;
+    // const { payload } = res.locals;
+    // const gardenerId = payload.id;
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant/${id}`;
