@@ -11,6 +11,7 @@ const wait = require('../helpers/utils/wait');
 const minify = require('../helpers/utils/migrationMinifiy');
 const { getSpikeTokenG } = require('../helpers/spike');
 const { getSpikeTokenKartoffel } = require('../helpers/spike');
+const { id } = require('../mocks/migration');
 
 const request = axios.create({
     httpsAgent: new https.Agent({
@@ -26,7 +27,7 @@ const getImmigrants = async (req, res) => {
         return res.json(migrationsMock);
     
     const { payload } = res.locals;
-    const gardenerId = payload.id;
+    //const gardenerId = payload.id;
     const token = await getSpikeTokenG();
     const headers = { Authorization: token };
     const url = `${config.gUrl}/api/immigrant`;
@@ -115,6 +116,8 @@ const search = async (req, res) => {
     });
     return res.json(searchResults.data);
 }
+
+
 const searchOG = async (req, res) => {
     const { groupname } = req.params;
     const token = await getSpikeTokenKartoffel();

@@ -11,18 +11,19 @@ const dbGetAllowedById = async (id) => {
 }
 
 const dbAddAllowed = async (data) => {
-    const obj = new schema(data);
+    let mainData = Object.assign(data,{_id: data.id});
+    const obj = new schema(mainData);
     const human = await obj.save();
     return human;
 }
 
-const dbUpdateAllowed = async (_id, data) => {
-    const human = await schema.findByIdAndUpdate(_id, data, {new: true});
+const dbUpdateAllowed = async (id, data) => {
+    const human = await schema.findByIdAndUpdate(id, data, {new: true});
     return human;
 }
 
-const dbDeleteAllowed = async (_id) => {
-    const human = await schema.findByIdAndRemove(_id);
+const dbDeleteAllowed = async (id) => {
+    const human = await schema.findByIdAndRemove(id);
     return human;
 }
 

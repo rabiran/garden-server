@@ -7,6 +7,7 @@ const config = require('../config');
 const averify = util.promisify(jwt.verify);
 
 const isAuth = async (req, res, next) => {
+    if(!config.isAuth) return next();
     const token = req.cookies['MSGardenToken'];
     
     try {
@@ -21,6 +22,7 @@ const isAuth = async (req, res, next) => {
 }
 
 const isAdmin = async (req, res, next) => {
+    if(!config.isAuth) return next();
     const token = req.cookies['MSGardenToken'];
     const superSecret = req.header('supersecret');
 
