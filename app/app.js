@@ -24,17 +24,17 @@ app.use(cookieParser());
 
 
 
-app.get('/',checkAuth);
+// app.get('/',checkAuth);
 
 
-app.get('/auth', getAuth);
-app.get('/shraga', passport.authenticate("shraga", { session: false }), (req, res, next) => {
-  // user will not get here and will be redirected to shraga instance configured.
-});
+// app.get('/auth', getAuth);
+// app.get('/shraga', passport.authenticate("shraga", { session: false }), (req, res, next) => {
+//   // user will not get here and will be redirected to shraga instance configured.
+// });
 
 
 
-app.post('/auth/callback/', passport.authenticate("shraga", { session: false }), shragaCallback);
+// app.post('/auth/callback/', passport.authenticate("shraga", { session: false }), shragaCallback);
 
 app.use('/api', indexRouter);
 // error handler

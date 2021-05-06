@@ -14,6 +14,7 @@ const getAllAllowed = async (req, res) => {
     for (user of response){
         user = user.toObject();
         userDetails = await getPersonById(user.id).catch(err => {
+            console.log(err);
             throw new ServerError(500, 'failed contacting kartoffel db');
         });
         userDetails.isAdmin = user.isAdmin;
