@@ -29,6 +29,7 @@ const shragaCallback = async (req, res) => {
         return res.redirect('/unauthorized')
     }
 
+    console.log('hello');
     const token = jwt.sign({
         id: actualId,
         fullName: `${name.firstName} ${name.lastName}`,
@@ -45,6 +46,7 @@ const getAuth = async (req, res, next) => {
     const payload = await averify(token, config.jwtSecret).catch(err => {
         throw new ServerError(401, 'no');
     });
+    console.log(payload);
     res.json(payload);
 }
 
