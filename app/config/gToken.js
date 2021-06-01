@@ -3,8 +3,8 @@ const path = require("path");
 
 module.exports = {
     redisHost: config.redisUrl,
-    ClientId: process.env.SPIKE_CLIENT_ID_G,
-    ClientSecret: process.env.SPIKE_CLIENT_SECRET_G,
+    clientId: process.env.SPIKE_CLIENT_ID,
+    clientSecret: process.env.SPIKE_CLIENT_SECRET,
     spikeURL: config.spikeUrl,
     tokenGrantType: 'client_credentials',
     tokenAudience: process.env.AUDIENCE_G,

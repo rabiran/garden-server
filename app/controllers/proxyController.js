@@ -173,6 +173,7 @@ const getDomainsMap = async (req,res) =>{
     const domainsMap = await request.get(url, {headers}).catch(err => {
         // const error = err.response;
         // throw new ServerError(error.status,error.data);
+        // console.log(err);
         throw new ServerError(500, 'failed contacting g');
     });
     return res.json(domainsMap.data);
